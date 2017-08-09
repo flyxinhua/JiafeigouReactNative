@@ -5,6 +5,7 @@ import {
     View,
     Image,
     TouchableHighlight,
+    Button,
 } from 'react-native';
 
 export default class Setup extends Component {
@@ -12,7 +13,7 @@ export default class Setup extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image style={styles.image} source={require('./res/Pic_Sign_in_CH.png')}/>
+                <Image style={styles.image} source={require('../res/Pic_Sign_in_CH.png')}/>
                 <TouchableHighlight style={[styles.login, styles.btn]}
                                     underlayColor='#0FA8D8'
                                     onPress={() => {
@@ -29,6 +30,7 @@ export default class Setup extends Component {
                 </TouchableHighlight>
 
                 <Text style={{fontSize:16,marginTop:20,color:'#BDBDBD'}}>随便看看</Text>
+                <Button style={{marginTop:10}} title="Button"/>
 
             </View>
         );

@@ -5,6 +5,7 @@
  */
 
 import {AppRegistry} from 'react-native';
-import setup from './setup';
+import setup from './js/setup';
+import myScreen from './js/TestNavigation'
 
-AppRegistry.registerComponent('JiafeigouReactNative', () => setup);
+AppRegistry.registerComponent('JiafeigouReactNative', () => myScreen);

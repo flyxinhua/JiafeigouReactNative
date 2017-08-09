@@ -5,6 +5,6 @@
  */
 
 import {AppRegistry} from 'react-native';
-import setup from './setup';
+import setup from './js/setup';
 
 AppRegistry.registerComponent('JiafeigouReactNative', () => setup);
