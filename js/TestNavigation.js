@@ -35,12 +35,15 @@ class SetupScreen extends React.Component {
         );
     }
 }
+// tab
 
 // export default App = TabNavigator({
 //    Main:{screen:MainScreen},
 //    Setup:{screen:SetupScreen}
 //});
 
+
+// stack
 export default App = StackNavigator({
    Main:{screen:MainScreen},
    Setup:{screen:SetupScreen}
