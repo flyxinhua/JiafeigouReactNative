@@ -48,7 +48,7 @@ export default class login extends React.Component {
                                    source={require('../res/album_icon_close.png')}/>
                         </TouchableOpacity>
 
-                        <Text style={{fontSize: 14, color: '#4b9fdf'}}
+                        <Text style={{fontSize: 16, color: '#4b9fdf'}}
                               onPress={() => Alert.alert("新用户")}> 新用户 </Text>
                     </View>
 
@@ -72,7 +72,9 @@ export default class login extends React.Component {
                 <TextInput style={[$.input, {
                     marginTop: 44,
                     borderBottomColor: '#f2f2f2',
-                    borderBottomWidth: 1
+                    borderBottomWidth: 1,
+                    paddingRight:38,
+                    paddingLeft:38,
                 }]}
                            underlineColorAndroid={'transparent'}
                            placeholder="请输入手机号/邮箱"
@@ -97,10 +99,10 @@ export default class login extends React.Component {
                 }}>
 
                     {/*密码输入框*/}
-                    <TextInput style={[$.input, {flex: 1, paddingTop: 1}]}
+                    <TextInput style={[$.input, {flex: 1, paddingTop: 1,paddingLeft:38,}]}
                                underlineColorAndroid={'transparent'}
                                placeholder="密码"
-                               secureTextEntry={true}
+                               secureTextEntry={!this.state.show}
                                textAlign='center'
                                onChangeText={
                                    text => {
@@ -109,14 +111,15 @@ export default class login extends React.Component {
                                }
                     />
                     <TouchableOpacity style={{marginHorizontal: 14}} onPress={() => {
-                        Alert.alert("clear")
-                        this.setState(this.state.show)
+                        this.setState({show:!this.state.show})
                     }
                     }>
-                        <Image style={$.btn} source={require('../res/icon_show_password.png')}/>
+                        <Image style={$.btn}
+                               source={this.state.show?require('../res/icon_show_password.png')
+                                   :require('../res/icon_hild_password.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
-                        this.setState({show:!this.state.show})
+
                     }
                     }>
                         <Image style={$.btn} source={require('../res/icon_clear_text.png')}/>
@@ -127,7 +130,7 @@ export default class login extends React.Component {
                 <TouchableOpacity
                     style={{alignItems: 'center', justifyContent: 'center', marginTop: 50}}
                     onPress={() => {
-                        Alert.alert(this.state.account+"/"+this.state.pwd)
+                        Alert.alert(this.state.account+"/"+this.state.show)
                     }}
                 >
                     <Text style={{fontSize: 20, color: '#333'}}>确定</Text>
@@ -155,15 +158,15 @@ const $ = StyleSheet.create({
     },
 
     img: {
-        width: 20,
-        height: 20
+        width: 18,
+        height: 18
     },
     btn: {
         width: 18,
         height: 18
     },
     text: {
-        fontSize: 33,
+        fontSize: 28,
         color: '#444444',
         flex: 1
     },
