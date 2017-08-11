@@ -1,13 +1,12 @@
-
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Text,
     View,
     Image,
-    TouchableHighlight,
-    Button,
+    Alert,
 } from 'react-native';
+import HlightButton from './custom/HButton';
+import OpactyButton from './custom/OpacityButton';
 
 export default class Welcome extends Component {
 
@@ -17,27 +16,38 @@ export default class Welcome extends Component {
         return (
             <View style={styles.container}>
                 <Image style={styles.image} source={require('../res/Pic_Sign_in_CH.png')}/>
-                <TouchableHighlight style={[styles.login, styles.btn]}
-                                    underlayColor='#0FA8D8'
-                                    onPress={() => {
-                                        navigate('Login');
-                                    }}>
-                    <Text style={styles.text}>登录 </Text>
-                </TouchableHighlight>
-                <TouchableHighlight style={[styles.reg, styles.btn]}
-                                    underlayColor="#FAFAFA"
-                                    onPress={() => {
 
-                                    }}>
-                    <Text style={[styles.text, {color: '#0EA2D2'}]}>注册 </Text>
-                </TouchableHighlight>
+                <HlightButton style={[styles.login, styles.btn]}
+                              underlayColor="#0FA8D8"
+                              onPress={() => {
+                                  navigate('Login');
+                              }}
+                              text='登录'
+                              textStyle={styles.text}
+                />
 
-                <Text style={{fontSize:16,marginTop:20,color:'#BDBDBD'}}>随便看看</Text>
+                <HlightButton style={[styles.reg, styles.btn]}
+                              underlayColor="#FAFAFA"
+                              onPress={() => {
+                                  navigate('Login');
+                              }}
+                              text='注册'
+                              textStyle={[styles.text, {color: '#0EA2D2'}]}
+                />
+
+                <OpactyButton textStyle={{fontSize: 16, marginTop: 20, color: '#BDBDBD'}}
+                              text='随便看看'
+                              activeOpacity={0.5}
+                              onPress={() => {
+                                  Alert.alert('别人说的话，随便听一听');
+                              }}
+                />
+
+
             </View>
         );
     }
 }
-
 
 
 const styles = StyleSheet.create({

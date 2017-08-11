@@ -10,8 +10,12 @@ import {
     Dimensions,
 } from 'react-native';
 
+import ImageButton from './custom/ImageButton';
+import OpacityButton from './custom/OpacityButton';
+import ThrLoginBtn from './custom/ThrLoginBtn';
 
-export default class login extends React.Component {
+
+export default class Login extends React.Component {
 
     constructor(p) {
         super(p);
@@ -22,123 +26,168 @@ export default class login extends React.Component {
         }
     }
 
+    clearPwd(name){
+        this.refs[name].setNativeProps({text:''});
+    }
+
     render() {
-        const {goBack} = this.props.navigation;
         return (
             <View style={$.contain}>
-                {/* 头部view */}
-                <View style={[$.header]}>
-                    <View style={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        paddingHorizontal: 15,
-                        width: Dimensions.get('window').width
-                    }}>
-                        {/*嵌套一个view 主要包含一个 X 按钮，和 ‘新用户’ 字体 */}
 
-                        <TouchableOpacity
-                            style={{alignItems: 'center', justifyContent: 'center',}}
-                            onPress={() => {
-                                goBack();
-                            }}
-                        >
-                            {/*用TouchableOpacity 包着image X */}
-                            <Image onPress={() => Alert.alert("新用户")} style={$.img}
-                                   source={require('../res/album_icon_close.png')}/>
-                        </TouchableOpacity>
-
-                        <Text style={{fontSize: 16, color: '#4b9fdf'}}
-                              onPress={() => Alert.alert("新用户")}> 新用户 </Text>
-                    </View>
-
-
-                    {/*用绝对布局撑满父布局，只有一个子布局，登录 */}
-                    <View style={{
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        right: 0,
-                        position: 'absolute',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                        <Text style={[$.text,]}> 登陆 </Text>
-                    </View>
-                </View>
-
+                {/*将 navigation 传递给Header 这个布局，方便它使用退回按钮功能*/}
+                <Header navigation={this.props.navigation}/>
 
                 {/*账号输入框*/}
-                <TextInput style={[$.input, {
-                    marginTop: 44,
-                    borderBottomColor: '#f2f2f2',
-                    borderBottomWidth: 1,
-                    paddingRight:38,
-                    paddingLeft:38,
-                }]}
-                           underlineColorAndroid={'transparent'}
-                           placeholder="请输入手机号/邮箱"
-                           placeholderTextColor='#cecece'
-                           textAlign='center'
-                           onChangeText={
-                               text => {
-                                   this.setState({account: text})
-                               }
-                           }
+                <TextInput
+                    style={[$.input, $.line, {marginTop: 44, paddingHorizontal: 45}]}
+                    underlineColorAndroid={'transparent'}
+                    placeholder="请输入手机号/邮箱"
+                    placeholderTextColor='#cecece'
+                    textAlign='center'
+                    onChangeText={
+                        text => {
+                            this.setState({account: text})
+                        }
+                    }
                 />
 
 
-                <View style={{
-                    height: 42,
-                    width: 320,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#f2f2f2'
-                }}>
+                <View style={[$.incenter, $.line, {height: 42, width: 320}]}>
 
                     {/*密码输入框*/}
-                    <TextInput style={[$.input, {flex: 1, paddingTop: 1,paddingLeft:38,}]}
-                               underlineColorAndroid={'transparent'}
-                               placeholder="密码"
-                               secureTextEntry={!this.state.show}
-                               textAlign='center'
-                               onChangeText={
-                                   text => {
-                                       this.setState({pwd: text})
-                                   }
-                               }
+                    <TextInput
+                        ref={'inputpwd'}
+                        style={[$.input, {marginTop: 0, paddingHorizontal: 45}]}
+                        underlineColorAndroid={'transparent'}
+                        placeholderTextColor='#cecece'
+                        placeholder="密码"
+                        secureTextEntry={!this.state.show}
+                        textAlign='center'
+                        onChangeText={
+                            text => {
+                                this.setState({pwd: text})
+                            }
+                        }
                     />
-                    <TouchableOpacity style={{marginHorizontal: 14}} onPress={() => {
-                        this.setState({show:!this.state.show})
-                    }
-                    }>
-                        <Image style={$.btn}
-                               source={this.state.show?require('../res/icon_show_password.png')
-                                   :require('../res/icon_hild_password.png')}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {
 
-                    }
-                    }>
-                        <Image style={$.btn} source={require('../res/icon_clear_text.png')}/>
-                    </TouchableOpacity>
+                    <View style={[$.absolute, {justifyContent: 'flex-end', flexDirection: 'row'}]}>
+                        <ImageButton
+                            style={{marginHorizontal: 10}}
+                            onPress={() =>
+                                this.setState({show: !this.state.show})
+                            }
+                            imgStyle={$.btn}
+                            imgurl={this.state.show ?
+                                require('../res/icon_show_password.png')
+                                : require('../res/icon_hild_password.png')}
+                        />
+
+                        <ImageButton
+                            imgurl={require('../res/icon_clear_text.png')}
+                            imgStyle={$.btn}
+                            onPress={() => {
+                                this.clearPwd('inputpwd');
+                            }}
+
+                        />
+                    </View>
 
                 </View>
                 {/*按钮*/}
-                <TouchableOpacity
-                    style={{alignItems: 'center', justifyContent: 'center', marginTop: 50}}
-                    onPress={() => {
-                        Alert.alert(this.state.account+"/"+this.state.show)
-                    }}
-                >
-                    <Text style={{fontSize: 20, color: '#333'}}>确定</Text>
-                </TouchableOpacity>
+
+                <OpacityButton
+                    style={[$.incenter, {
+                        marginTop: 50, width: 172, height: 42, borderWidth: 1,
+                        borderColor: '#d8d8d8', borderRadius: 20,
+                    }]}
+                    onPress={() =>
+                        Alert.alert(this.state.account + "/" + this.state.show)
+                    }
+                    textStyle={{fontSize: 17, color: '#4B9FD5'}}
+                    text='确定'
+                />
+
+
+                <Text style={{fontSize: 12, color: '#999999', marginTop: 30}} onPress={() =>
+                    Alert.alert("忘记密码")
+                }> 忘记密码?</Text>
+
+                <Bottom/>
             </View>
         )
     };
 
+}
+
+class Header extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <View style={[$.header]}>
+                <View style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    paddingHorizontal: 15,
+                    width: Dimensions.get('window').width
+                }}>
+                    {/*嵌套一个view 主要包含一个 X 按钮，和 ‘新用户’ 字体 */}
+
+                    <ImageButton
+                        style={{alignItems: 'center', justifyContent: 'center'}}
+                        imgStyle={$.img}
+                        imgurl={require('../res/album_icon_close.png')}
+                        onPress={() => this.props.navigation.goBack()}
+                    />
+
+                    <Text style={{fontSize: 16, color: '#4b9fdf'}}
+                          onPress={() => Alert.alert("新用户")}> 新用户 </Text>
+                </View>
+
+
+                {/*用绝对布局撑满父布局，只有一个子布局，登录 */}
+                <View style={$.absolute}>
+                    <Text style={[$.text,]}> 登陆 </Text>
+                </View>
+            </View>
+        );
+    }
+}
+
+
+class Bottom extends React.Component {
+
+    render() {
+        return (
+            <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 34,
+                    flexDirection: 'row'
+                }}>
+                    <ThrLoginBtn
+                        style={{marginRight: 24}}
+                        onPress={() => Alert.alert('Login By QQ')}
+                        text="QQ登录"
+                        textStyle={$.thrtext}
+                        imgstyle={$.img}
+                        imgurl={require('../res/icon_qq.png')}/>
+                    <View style={{width: 1, height: 13, backgroundColor: '#9e9e9e'}}/>
+                    <ThrLoginBtn
+                        style={{marginLeft: 24}}
+                        onPress={() => Alert.alert('Login By WeiBo')}
+                        text="微博登录"
+                        textStyle={$.thrtext}
+                        imgstyle={$.img}
+                        imgurl={require('../res/ico_weibo.png')}/>
+                </View>
+            </View>
+        );
+    }
 }
 
 const $ = StyleSheet.create({
@@ -149,6 +198,14 @@ const $ = StyleSheet.create({
         justifyContent: 'flex-start'
     },
 
+    incenter: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    line: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2'
+    },
     header: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -176,5 +233,19 @@ const $ = StyleSheet.create({
         fontSize: 15,
         marginTop: 28,
         color: '#666666'
+    },
+    thrtext: {
+        marginLeft: 9,
+        fontSize: 13,
+        color: '#7c7c7c'
+    },
+    absolute: {
+        left: 0,
+        top: 0,
+        bottom: 0,
+        right: 0,
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
