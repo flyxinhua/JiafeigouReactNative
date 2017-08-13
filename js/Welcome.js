@@ -29,7 +29,7 @@ export default class Welcome extends Component {
                 <HlightButton style={[styles.reg, styles.btn]}
                               underlayColor="#FAFAFA"
                               onPress={() => {
-                                  navigate('Login');
+                                  navigate('Register');
                               }}
                               text='注册'
                               textStyle={[styles.text, {color: '#0EA2D2'}]}

@@ -1,14 +1,19 @@
 import {StackNavigator, TabNavigator} from 'react-navigation';
-import welcome from './Welcome';
-import login from './Login';
+import Welcome from './Welcome';
+import Login from './Login';
+import Register from './Register';
 
 export default MainNavigation = StackNavigator(
     {
         Welcome: {
-            screen: welcome
+            screen: Welcome
         },
         Login: {
-            screen: login
+            screen: Login
+        },
+        Register: {
+            screen: Register
         }
+
     },
     {headerMode: 'none'});

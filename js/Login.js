@@ -13,7 +13,7 @@ import {
 import ImageButton from './custom/ImageButton';
 import OpacityButton from './custom/OpacityButton';
 import ThrLoginBtn from './custom/ThrLoginBtn';
-
+import Header from './custom/Header';
 
 export default class Login extends React.Component {
 
@@ -26,16 +26,25 @@ export default class Login extends React.Component {
         }
     }
 
-    clearPwd(name){
-        this.refs[name].setNativeProps({text:''});
+    clearPwd(name) {
+        this.refs[name].setNativeProps({text: ''});
     }
 
     render() {
+
+        const {navigate} = this.props.navigation;
+
         return (
             <View style={$.contain}>
 
                 {/*将 navigation 传递给Header 这个布局，方便它使用退回按钮功能*/}
-                <Header navigation={this.props.navigation}/>
+                <Header navigation={this.props.navigation}
+                        back={() => this.props.navigation.goBack()}
+                        next={() => navigate('Register')}
+                        rightText="新用户"
+                        lefturl={require('../res/album_icon_close.png')}
+                        titleText="登陆"
+                />
 
                 {/*账号输入框*/}
                 <TextInput
@@ -70,7 +79,10 @@ export default class Login extends React.Component {
                         }
                     />
 
-                    <View style={[$.absolute, {justifyContent: 'flex-end', flexDirection: 'row'}]}>
+                    <View style={[$.incenter, {
+                        top: 0, bottom: 0, right: 0,
+                        position: 'absolute', justifyContent: 'flex-end', flexDirection: 'row'
+                    }]}>
                         <ImageButton
                             style={{marginHorizontal: 10}}
                             onPress={() =>
@@ -117,44 +129,6 @@ export default class Login extends React.Component {
         )
     };
 
-}
-
-class Header extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <View style={[$.header]}>
-                <View style={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    paddingHorizontal: 15,
-                    width: Dimensions.get('window').width
-                }}>
-                    {/*嵌套一个view 主要包含一个 X 按钮，和 ‘新用户’ 字体 */}
-
-                    <ImageButton
-                        style={{alignItems: 'center', justifyContent: 'center'}}
-                        imgStyle={$.img}
-                        imgurl={require('../res/album_icon_close.png')}
-                        onPress={() => this.props.navigation.goBack()}
-                    />
-
-                    <Text style={{fontSize: 16, color: '#4b9fdf'}}
-                          onPress={() => Alert.alert("新用户")}> 新用户 </Text>
-                </View>
-
-
-                {/*用绝对布局撑满父布局，只有一个子布局，登录 */}
-                <View style={$.absolute}>
-                    <Text style={[$.text,]}> 登陆 </Text>
-                </View>
-            </View>
-        );
-    }
 }
 
 
@@ -222,11 +196,6 @@ const $ = StyleSheet.create({
         width: 18,
         height: 18
     },
-    text: {
-        fontSize: 28,
-        color: '#444444',
-        flex: 1
-    },
     input: {
         width: 320,
         height: 40,
@@ -239,13 +208,4 @@ const $ = StyleSheet.create({
         fontSize: 13,
         color: '#7c7c7c'
     },
-    absolute: {
-        left: 0,
-        top: 0,
-        bottom: 0,
-        right: 0,
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
 });
