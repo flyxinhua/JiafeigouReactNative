@@ -21,6 +21,11 @@ export default class Register extends React.Component {
                 <ImageButton
                     imgStyle={$.clearbtn}
                     imgurl={require('../res/icon_clear_text.png')}
+                    onPress={
+                        () => {
+                            this.refs['inputAccount'].setNativeProps({text: ''});
+                        }
+                    }
                 />);
         } else {
             return null;
@@ -32,18 +37,17 @@ export default class Register extends React.Component {
         return (
             <View style={$.contain}>
                 <Header navigation={this.props.navigation}
-                        back={() => this.props.navigation.goBack()}
-                        next={() => {
-                            navigate('Login')
-                        }}
+                        back={() => navigate('Welcome')}
+                        next={() => navigate('Login')}
                         rightText="登陆"
                         lefturl={require('../res/album_icon_close.png')}
                         titleText="注册"
                 />
 
 
-                <View style={$.inputlayout}>
+                <View style={[$.inputlayout, $.line]}>
                     <TextInput
+                        ref="inputAccount"
                         style={$.account}
                         underlineColorAndroid={'transparent'}
                         placeholderTextColor='#cecece'
@@ -51,16 +55,13 @@ export default class Register extends React.Component {
                         textAlign='center'
                         onChangeText={
                             text => {
-                                console.log(text);
-                                this.setState({account: text});
-                                if (this.state.account !== '') {
-                                    this.setState({clear: true});
-                                } else {
-                                    this.setState({clear: false});
-                                }
-                                console.log('the clear btn state is ' + this.state.clear);
+                                this.setState({account: text})
                             }
                         }
+
+                        onFocus={() => this.setState({clear: true})}
+
+                        onBlur={() => this.setState({clear: false})}
                     />
 
                     {this.showClearBtn(this.state.clear)}
@@ -95,6 +96,10 @@ const $ = StyleSheet.create({
     clearbtn: {
         width: 18,
         height: 18
-    }
+    },
+    line: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2'
+    },
 });
 

@@ -39,7 +39,7 @@ export default class Login extends React.Component {
 
                 {/*将 navigation 传递给Header 这个布局，方便它使用退回按钮功能*/}
                 <Header navigation={this.props.navigation}
-                        back={() => this.props.navigation.goBack()}
+                        back={() => navigate('Welcome')}
                         next={() => navigate('Register')}
                         rightText="新用户"
                         lefturl={require('../res/album_icon_close.png')}
@@ -113,7 +113,7 @@ export default class Login extends React.Component {
                         borderColor: '#d8d8d8', borderRadius: 20,
                     }]}
                     onPress={() =>
-                        Alert.alert(this.state.account + "/" + this.state.show)
+                        Alert.alert(this.state.account + "/" + this.state.pwd)
                     }
                     textStyle={{fontSize: 17, color: '#4B9FD5'}}
                     text='确定'
