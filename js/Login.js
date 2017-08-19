@@ -14,6 +14,7 @@ import ImageButton from './custom/ImageButton';
 import OpacityButton from './custom/OpacityButton';
 import ThrLoginBtn from './custom/ThrLoginBtn';
 import Header from './custom/Header';
+import HomePage from "./HomePage";
 
 export default class Login extends React.Component {
 
@@ -25,6 +26,9 @@ export default class Login extends React.Component {
             account: '',
         }
     }
+
+
+
 
     clearPwd(name) {
         this.refs[name].setNativeProps({text: ''});
@@ -112,9 +116,7 @@ export default class Login extends React.Component {
                         marginTop: 50, width: 172, height: 42, borderWidth: 1,
                         borderColor: '#d8d8d8', borderRadius: 20,
                     }]}
-                    onPress={() =>
-                        Alert.alert(this.state.account + "/" + this.state.pwd)
-                    }
+                    onPress={()=>{navigate('HomePage')}}
                     textStyle={{fontSize: 17, color: '#4B9FD5'}}
                     text='确定'
                 />
